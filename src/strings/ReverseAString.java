@@ -1,9 +1,13 @@
+package strings;
 public class ReverseAString {
 	// Input: Any case-sensitive string
 	// Output: Reversed case-sensitive string
 	public static void main(String[] args) {
-		ReverseAString instance = new ReverseAString();
-		instance.reverse("Aditya");
+		new ReverseAString("Aditya");
+	}
+
+	public ReverseAString(String aString) {
+		reverse(aString);
 	}
 
 	public void reverse(String aString) {
