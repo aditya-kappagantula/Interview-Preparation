@@ -8,18 +8,11 @@ public class BinarySearchTree<E> {
 	}
 
 	public void add(E data) {
-		root = add(root, data);
-	}
-
-	private Node<E> add(Node<E> root, E data) {
 		if (root == null) {
 			root = new Node<E>(data);
-		} else if (root.getData().toString().compareTo(data.toString()) <= 0) {
-			root.setLeft(add(root.getLeft(), data));
 		} else {
-			root.setRight(add(root.getRight(), data));
+			root = root.add(root, data);
 		}
-		return root;
 	}
 
 	public void printInOrder() {

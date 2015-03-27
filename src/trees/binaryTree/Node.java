@@ -35,11 +35,13 @@ public class Node<E> {
 		this.right = right;
 	}
 
-	public Node<E> add(Node<E> root, Node<E> aNode) {
-		if (root.getData().toString().compareTo(aNode.getData().toString()) <= 0) {
-			root.setLeft(add(root.getLeft(), aNode));
+	public Node<E> add(Node<E> root, E data) {
+		if (root == null) {
+			root = new Node<E>(data);
+		} else if (root.getData().toString().compareTo(data.toString()) >= 0) {
+			root.setLeft(add(root.getLeft(), data));
 		} else {
-			root.setRight(add(root.getRight(), aNode));
+			root.setRight(add(root.getRight(), data));
 		}
 		return root;
 	}
