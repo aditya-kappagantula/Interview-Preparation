@@ -4,10 +4,14 @@ public class Cell<E> {
 	private E value;
 	private boolean isOpen;
 	private int index;
+	private int rowIndex;
+	private int columnIndex;
+	private int blockIndex;
 
-	public Cell(int index) {
+	public Cell(int index, E value) {
 		this.setOpen(false);
 		this.setIndex(index);
+		this.setValue(value);
 	}
 
 	/**
@@ -33,7 +37,8 @@ public class Cell<E> {
 	}
 
 	/**
-	 * @param index the index to set
+	 * @param index
+	 *            the index to set
 	 */
 	public void setIndex(int index) {
 		this.index = index;
@@ -47,9 +52,55 @@ public class Cell<E> {
 	}
 
 	/**
-	 * @param isOpen the isOpen to set
+	 * @param isOpen
+	 *            the isOpen to set
 	 */
 	public void setOpen(boolean isOpen) {
 		this.isOpen = isOpen;
+	}
+
+	/**
+	 * @return the rowIndex
+	 */
+	public int getRowIndex() {
+		return rowIndex;
+	}
+
+	/**
+	 * @param rowIndex
+	 *            the rowIndex to set
+	 */
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
+	}
+
+	/**
+	 * @return the columnIndex
+	 */
+	public int getColumnIndex() {
+		return columnIndex;
+	}
+
+	/**
+	 * @param columnIndex
+	 *            the columnIndex to set
+	 */
+	public void setColumnIndex(int columnIndex) {
+		this.columnIndex = columnIndex;
+	}
+
+	/**
+	 * @return the blockIndex
+	 */
+	public int getBlockIndex() {
+		return blockIndex;
+	}
+
+	/**
+	 * @param blockIndex
+	 *            the blockIndex to set
+	 */
+	public void setBlockIndex(int blockIndex) {
+		this.blockIndex = blockIndex;
 	}
 }
