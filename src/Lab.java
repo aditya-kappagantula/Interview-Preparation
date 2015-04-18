@@ -8,6 +8,6 @@ public class Lab {
 		for (int i = 1; i <= aBoard.size(); i++) {
 			aBoard.setCellValue(i, i);
 		}
-		aBoard.print();
+		// aBoard.print();
 	}
 }

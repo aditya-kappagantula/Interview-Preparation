@@ -11,6 +11,9 @@ public class Cell<E> {
 	public Cell(int index, E value) {
 		this.setOpen(false);
 		this.setIndex(index);
+		this.setRowIndex(0);
+		this.setColumnIndex(0);
+		this.setBlockIndex(0);
 		this.setValue(value);
 	}
 
