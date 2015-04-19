@@ -43,26 +43,31 @@ public class Board<E> implements ISudokuIterator<E> {
 			}
 			columnIndex++;
 		}
-		int blockIndex = 1;
-		int count = 0;
-		for (int i = 1; i <= blocks / 3; i++) {
-			for (int j = 1; j <= blocks / 3; j++) {
-				int currentBlock = (i * blocks / 3) + j - blocks / 3;
-				System.out.println("cb-" + currentBlock);
-				System.out.println(((((currentBlock - 1) * 3) / blocks) * 27)
-						+ (currentBlock));
-				// for (int k = 1; k <= blocks; k++) {
-				// for (int l = 1; l <= blocks; l++) {
-				// count++;
-				// System.out.println("i " + i + " j " + j + "  k " + k
-				// + "  current block  " + currentBlock
-				// + "  count" + count);
-				// System.out.println(currentBlock * blocks);
-				// }
-				// }
-				// System.out.println((i * blocks) + j - blocks);
-			}
+		// int blockIndex = 1;
+		// int count = 0;
+		// for (int i = 1; i <= blocks / 3; i++) {
+		// for (int j = 1; j <= blocks / 3; j++) {
+		// int currentBlock = (i * blocks / 3) + j - blocks / 3;
+		// }
+		// }
+		for (int i = 1; i <= size(); i++) {
+			int currentBlockIndex = (i / 27) * 27 + 3 * (i % 9 / 3) + 1;
+			cells.get(i - 1).setBlockIndex(currentBlockIndex);
 		}
+		// index = row*9 + col
+		//
+		// row = i / 9
+		// col = i % 9
+		//
+		// blockRow = (row / 3) * 3
+		// blockCol = (col / 3) * 3
+		//
+		// blockRow = (i / 9 / 3) * 3 = (i / 27) * 3
+		// blockCol = (i % 9 / 3) * 3
+		//
+		// blockIndex = (blockRow*9) + blockCol = ((i / 27) * 3 * 9) +
+		// (i % 9 / 3) * 3 =
+		// (i / 27) * 27 + 3 * (i % 9 / 3)
 	}
 
 	/**
