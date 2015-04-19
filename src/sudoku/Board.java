@@ -50,10 +50,15 @@ public class Board<E> implements ISudokuIterator<E> {
 		// int currentBlock = (i * blocks / 3) + j - blocks / 3;
 		// }
 		// }
-		for (int i = 1; i <= size(); i++) {
-			int currentBlockIndex = (i / 27) * 27 + 3 * (i % 9 / 3) + 1;
-			cells.get(i - 1).setBlockIndex(currentBlockIndex);
+		for (int i = 0; i < size(); i++) {
+			// int currentBlockIndex = (i / 27) * 27 + 3 * (i % 9 / 3) + 1;
+			// System.out.println(currentBlockIndex);
+			int currentRow = cells.get(i).getRowIndex() - 1;
+			int currentColumn = cells.get(i).getColumnIndex() - 1;
+			cells.get(i).setBlockIndex(
+					currentRow / 3 * 3 + currentColumn / 3 + 1);
 		}
+		// Logic to find first index of each block
 		// index = row*9 + col
 		//
 		// row = i / 9
@@ -121,7 +126,8 @@ public class Board<E> implements ISudokuIterator<E> {
 			for (int j = 1; j <= columns; j++) {
 				System.out.print(getCellValue(i + j - 1) + " | "
 						+ getCellRowIndex(i + j - 1) + " | "
-						+ getCellColumnIndex(i + j - 1) + "\t");
+						+ getCellColumnIndex(i + j - 1) + " | "
+						+ getCellBlockIndex(i + j - 1) + "\t");
 				// System.out.print((i + j - 1) + " \t ");
 			}
 			System.out.println("\n");
@@ -161,24 +167,6 @@ public class Board<E> implements ISudokuIterator<E> {
 	}
 
 	@Override
-	public IIterator<E> createRowWiseIterator() {
-		RowWiseIterator<E> aRowWiseIterator = new RowWiseIterator<E>();
-		return aRowWiseIterator;
-	}
-
-	@Override
-	public IIterator<E> createColumnWiseIterator() {
-		ColumnWiseIterator<E> aColumnWiseIterator = new ColumnWiseIterator<E>();
-		return aColumnWiseIterator;
-	}
-
-	@Override
-	public IIterator<E> createBlockWiseIterator() {
-		BlockWiseIterator<E> aBlockWiseIterator = new BlockWiseIterator<E>();
-		return aBlockWiseIterator;
-	}
-
-	@Override
 	public IIterator<E> createBlockIterator(int aBlockIndex) {
 		BlockIterator<E> aBlockIterator = new BlockIterator<E>(aBlockIndex);
 		return aBlockIterator;
@@ -196,81 +184,84 @@ public class Board<E> implements ISudokuIterator<E> {
 		return aColumnIterator;
 	}
 
-	private class RowWiseIterator<E> implements IIterator<E> {
-		public boolean hasNext() {
-			return false;
-		}
-
-		public Object next() {
-			return null;
-		}
-	}
-
-	private class ColumnWiseIterator<E> implements IIterator {
-		public boolean hasNext() {
-			return false;
-		}
-
-		public Object next() {
-			return null;
-		}
-	}
-
-	private class BlockWiseIterator<E> implements IIterator {
-		public boolean hasNext() {
-			return false;
-		}
-
-		public Object next() {
-			return null;
-		}
-	}
-
-	private class RowIterator<E> implements IIterator {
+	private class RowIterator<C> implements IIterator<E> {
 		private int rowIndex;
+		private int currentCellIndex;
 
 		public RowIterator(int rowIndex) {
 			this.rowIndex = rowIndex;
+			this.currentCellIndex = ((rowIndex - 1) * rows) + 1;
 		}
 
 		public boolean hasNext() {
-			return false;
+			if (currentCellIndex <= rows * rowIndex) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
-		public Object next() {
-			return null;
+		public Cell<E> next() {
+			Cell<E> currentCell = cells.get(currentCellIndex - 1);
+			currentCellIndex++;
+			return currentCell;
 		}
 	}
 
-	private class ColumnIterator<E> implements IIterator {
+	private class ColumnIterator<C> implements IIterator<E> {
 		private int columnIndex;
+		private int currentCellIndex;
 
 		public ColumnIterator(int columnIndex) {
 			this.columnIndex = columnIndex;
+			this.currentCellIndex = columnIndex;
 		}
 
 		public boolean hasNext() {
-			return false;
+			if (currentCellIndex <= rows * columns) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
-		public Object next() {
-			return null;
+		public Cell<E> next() {
+			Cell<E> currentCell = cells.get(currentCellIndex - 1);
+			currentCellIndex = currentCellIndex + rows;
+			return currentCell;
 		}
 	}
 
-	private class BlockIterator<E> implements IIterator {
+	private class BlockIterator<C> implements IIterator<E> {
 		private int blockIndex;
+		private int currentCellIndex;
+		private ArrayList<Cell<E>> iterableCells;
 
 		public BlockIterator(int blockIndex) {
 			this.blockIndex = blockIndex;
+			iterableCells = new ArrayList<Cell<E>>();
+			for (int i = 1; i < size(); i++) {
+				if (cells.get(i - 1).getBlockIndex() == blockIndex) {
+					iterableCells.add(cells.get(i - 1));
+					// System.out.println("jere");
+					// System.out.println(cells.get(i - 1).getValue());
+				}
+			}
+			this.currentCellIndex = 0;
 		}
 
 		public boolean hasNext() {
-			return false;
+			if (currentCellIndex < iterableCells.size()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
-		public Object next() {
-			return null;
+		public Cell<E> next() {
+			Cell<E> currentCell = iterableCells.get(currentCellIndex);
+			currentCellIndex++;
+			return currentCell;
 		}
 	}
 }

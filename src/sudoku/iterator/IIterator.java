@@ -1,7 +1,9 @@
 package sudoku.iterator;
 
+import sudoku.Cell;
+
 public interface IIterator<E> {
 	public boolean hasNext();
 
-	public Object next();
+	public Cell<E> next();
 }
